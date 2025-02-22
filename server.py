@@ -9,6 +9,7 @@ import torch
 from langchain_community.llms.llamafile import Llamafile
 from langchain_google_genai.chat_models import ChatGoogleGenerativeAI # type: ignore
 from langchain_core.messages import HumanMessage, SystemMessage
+from dotenv import load_dotenv
 
 # system_prompt = """
 # You are an AI designed to generate structured, engaging, and informative podcast transcripts from text extracted from Research Paper PDFs.
@@ -34,7 +35,7 @@ class LLM:
         if use_llamafile:
             self.llm = Llamafile()
         else:
-            self.llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", api_key="AIzaSyBSmUYTgk0TMhdL6L1e5jlKzNR9wtLXaOY")
+            self.llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash",os.getenv('api_key'))
         self.llm.invoke(system_prompt)
     
     def generate_transcript(self, text: str):
@@ -48,6 +49,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+def configure():
+    load_dotenv()
 
 
 def text_to_speech(text, output_audio_path, language='indic', speaker='v4_indic'):
