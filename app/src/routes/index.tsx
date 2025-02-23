@@ -25,6 +25,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/')({
   component: Index,
@@ -46,7 +47,14 @@ function Index() {
     queries: [getUser(), getPodcasts()],
   });
 
-  if (userLoading || podcastsLoading) return <div>Loading...</div>
+  const [doi, setDOI] = useState('');
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleNewPodcast = async (e: any) => {
+    e.preventDefault();
+  };
+
+  if (userLoading || podcastsLoading) return <div>Loading...</div>;
 
   return (
     <ScrollArea className='p-[30px]'>
@@ -68,30 +76,50 @@ function Index() {
               Upload the Research Paper that you want to convert.
             </DialogDescription>
           </DialogHeader>
-          <div className="grid w-full max-w-sm items-center gap-1.5 my-[15px]">
-            <Label htmlFor="picture">Research Paper</Label>
-            <Input id="research-paper" type="file" />
-          </div>
-          <Button type="submit">Proceed</Button>
+          <form onSubmit={handleNewPodcast} className='my-[15px]'>
+            <div className="grid w-full max-w-sm items-center gap-1.5">
+              <Label htmlFor="doi">DOI</Label>
+              <Input id="doi" type="text" value={doi} onChange={e => {
+                e.preventDefault();
+                setDOI(e.target.value);
+              }} />
+            </div>
+            <div className='h-[20px]'></div>
+            <div className="grid w-full max-w-sm items-center gap-1.5">
+              <Label htmlFor="research-paper">Research Paper</Label>
+              <Input id="research-paper" type="file" />
+            </div>
+            <div className='h-[20px]'></div>
+            <Button type="submit">Proceed</Button>
+          </form>
         </DialogContent>
       </Dialog>
       <div className='h-[30px]'></div>
 
-      {[0, 0, 0, 0, 0].map(podcast => (
+      {
+        !podcasts || podcasts?.length == 0 ?
+          <div className='px-[20px] py-[60px] text-center bg-stone-900 rounded-lg'>
+            <h1 className='text-2xl font-mono font-bold'>No Podcasts</h1>
+            <p className='mt-[5px] text-sm text-muted-foreground'>You haven't generated any podcasts yet,<br/>click on the above button to create your first one.</p>
+          </div>
+        : <></>
+      }
+
+      {podcasts?.map(podcast => (
         <Sheet>
           <SheetTrigger>
             <div className='p-[20px] text-start bg-stone-900 rounded-lg my-[15px] hover:bg-stone-800 cursor-pointer duration-100'>
-              <h1 className='text-xl font-mono font-bold mb-[5px]'>Unikernels as Processes</h1>
-              <p className='max-h-[75px] overflow-hidden text-sm'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+              <h1 className='text-xl font-mono font-bold mb-[5px]'>{podcast.title}</h1>
+              <p className='max-h-[75px] overflow-hidden text-sm'>{podcast.abstract}</p>
               <div className='h-[15px]'></div>
-              <Badge>Badge</Badge>
+              <Badge>{podcast.status}</Badge>
             </div>
           </SheetTrigger>
           <SheetContent className='min-w-[600px]'>
             <SheetHeader>
-              <SheetTitle>Unikernels As Processes</SheetTitle>
+              <SheetTitle>{podcast.title}</SheetTitle>
               <SheetDescription>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+                {podcast.abstract}
               </SheetDescription>
 
               <div className='h-[10px]'></div>
