@@ -124,6 +124,21 @@ def generate_podcast():
 def index():
     return render_template("index.html")
 
+#load llamafile
+def start_llamafile():
+    process = subprocess.Popen([
+        "bash",
+        "~/Llama-3.2-3B-Instruct.Q6_K.llamafile",
+        "-ngl", "13",
+        "--server",
+        "--nobrowser"
+    ])
+    try:
+        yield process  # This lets you use the process inside a `with` block
+    finally:
+        process.terminate()  # Ensure it stops when done
+        process.wait()
+
 if __name__ == "__main__":
     print("Connecting to LLM")
     generator = LLM()
