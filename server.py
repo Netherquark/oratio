@@ -7,6 +7,7 @@ import torchaudio
 import torch
 import subprocess
 import contextlib
+import fairseq
 from langchain_community.llms.llamafile import Llamafile
 from langchain_core.messages import HumanMessage, SystemMessage
 from dotenv import load_dotenv
@@ -138,8 +139,16 @@ def start_llamafile():
     finally:
         process.terminate()  # Ensure it stops when done
         process.wait()
+def translate_text(text, model_checkpoint=EN_IN_ckpt_dir, src_lang="eng_Latn", tgt_lang="hin_Deva", beam_len = 5):
+    model = Model(model_checkpoint, model_type="fairseq")
+    return model.translate_paragraph(text, src_lang=src_lang, tgt_lang=tgt_lang, beam_len = beam_len)
 
 if __name__ == "__main__":
+    sentence = "Hello, how are you doing today? I hope you are having a great day."
+    translated_text = translate_text(sentence)
+    
+    print(f"English Sentence: {sentence}")
+    print(f"Hindi Sentence: {translated_text}")
     print("Connecting to LLM")
     generator = LLM()
     app.config["generator"] = generator
