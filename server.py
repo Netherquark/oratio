@@ -46,7 +46,7 @@ class LLM:
     def generate_transcript(self, text: str):
         return self.llm.invoke(text)
 
-app = Flask("researchpod")
+app = Flask("oratio")
 UPLOAD_FOLDER = "uploads"
 ALLOWED_EXTENSIONS = {'pdf'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
