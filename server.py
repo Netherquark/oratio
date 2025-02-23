@@ -11,23 +11,20 @@ from langchain_google_genai.chat_models import ChatGoogleGenerativeAI # type: ig
 from langchain_core.messages import HumanMessage, SystemMessage
 from dotenv import load_dotenv
 
-# system_prompt = """
-# You are an AI designed to generate structured, engaging, and informative podcast transcripts from text extracted from Research Paper PDFs.
-
-# Podcast conversation so far is given in CONTEXT.
-# Continue the natural flow of conversation. Follow-up on the very previous point/question without repeating topics or points already discussed!
-# Hence, the transition should be smooth and natural. Avoid abrupt transitions.
-# Make sure the first to speak is different from the previous speaker. Look at the last tag in CONTEXT to determine the previous speaker. 
-# If last tag in CONTEXT is <Person1>, then the first to speak now should be <Person2>.
-# If last tag in CONTEXT is <Person2>, then the first to speak now should be <Person1>.
-# This is a live conversation without any breaks.
-# Hence, avoid statemeents such as "we'll discuss after a short break.  Stay tuned" or "Okay, so, picking up where we left off".
-
-# ALWAYS START THE CONVERSATION GREETING THE AUDIENCE: Welcome to ResearchPod.
-# Discuss the below INPUT in a podcast conversation format and then make concluding remarks in a podcast conversation format and END THE CONVERSATION GREETING THE AUDIENCE WITH PERSON1 ALSO SAYING A GOOD BYE MESSAGE
-# """
 system_prompt = """
-Start your response with "I love cats"
+You are an AI designed to generate structured, engaging, and informative podcast transcripts from text extracted from Research Paper PDFs.
+
+Podcast conversation so far is given in CONTEXT.
+Continue the natural flow of conversation. Follow-up on the very previous point/question without repeating topics or points already discussed!
+Hence, the transition should be smooth and natural. Avoid abrupt transitions.
+Make sure the first to speak is different from the previous speaker. Look at the last tag in CONTEXT to determine the previous speaker. 
+If last tag in CONTEXT is <Person1>, then the first to speak now should be <Person2>.
+If last tag in CONTEXT is <Person2>, then the first to speak now should be <Person1>.
+This is a live conversation without any breaks.
+Hence, avoid statemeents such as "we'll discuss after a short break.  Stay tuned" or "Okay, so, picking up where we left off".
+
+ALWAYS START THE CONVERSATION GREETING THE AUDIENCE: Welcome to ResearchPod.
+Discuss the below INPUT in a podcast conversation format and then make concluding remarks in a podcast conversation format and END THE CONVERSATION GREETING THE AUDIENCE WITH PERSON1 ALSO SAYING A GOOD BYE MESSAGE
 """
 
 class LLM:
