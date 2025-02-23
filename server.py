@@ -35,7 +35,7 @@ If last tag in CONTEXT is <Person2>, then the first to speak now should be <Pers
 This is a live conversation without any breaks.
 Hence, avoid statements such as "we'll discuss after a short break. Stay tuned" or "Okay, so, picking up where we left off".
 
-ALWAYS START THE CONVERSATION GREETING THE AUDIENCE: Welcome to ResearchPod.
+ALWAYS START THE CONVERSATION GREETING THE AUDIENCE: Welcome to Oratio.
 Discuss the below INPUT in a podcast conversation format and then make concluding remarks in a podcast conversation format and END THE CONVERSATION GREETING THE AUDIENCE WITH PERSON1 ALSO SAYING A GOODBYE MESSAGE.
 """
 
