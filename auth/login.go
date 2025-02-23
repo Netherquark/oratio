@@ -65,6 +65,8 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		Path:     "/",
 		HttpOnly: true,
 		MaxAge:   COOKIE_DURATION,
+		Secure:   false,
+		SameSite: http.SameSiteLaxMode,
 	})
 
 	log.Info().

@@ -1,12 +1,20 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 import { useQueryClient } from '@tanstack/react-query';
-import { login } from '@/query/auth';
+import { AuthGuard, login } from '@/query/auth';
 
 export const Route = createFileRoute('/login')({
   component: LoginPage,
+  beforeLoad: async () => {
+    const isAuth = await AuthGuard();
+    if (isAuth) {
+      throw redirect({
+        to: '/'
+      });
+    }
+  },
 })
 
 function LoginPage() {

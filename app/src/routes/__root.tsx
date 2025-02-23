@@ -1,25 +1,25 @@
-import Sidebar from '@/components/sidebar';
-import { LogOutIcon } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { createRootRoute, Outlet } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import TopBar from '@/components/topbar';
+import { queryClient } from '@/query/client';
+import { getUser } from '@/query/user';
 
 export const Route = createRootRoute({
-  component: () => (
-    <div>
-      {/* <div className='w-screen py-4 px-3 bg-background border-solid border-b-[1px] border-stone-300/20 flex sticky top-0'>
-        <h1 className='text-2xl font-display'>Oratio</h1>
-        <div className="grow"></div>
-        <Button size='icon' className='cursor-pointer bg-red-700 hover:bg-red-600 text-stone-200'>
-          <LogOutIcon />
-        </Button>
-      </div> */}
+  component: Root,
+  loader: () => queryClient.ensureQueryData(getUser()),
+});
 
+function Root() {
+  const user = Route.useLoaderData();
+
+  return (
+    <div>
+      {user ? <TopBar /> : <></>}
       <Outlet />
 
       <TanStackRouterDevtools position='bottom-right' />
       <ReactQueryDevtools initialIsOpen={false} position='right' />
     </div>
-  ),
-});
+  );
+}

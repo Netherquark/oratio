@@ -67,3 +67,17 @@ func AuthMiddleware() func(http.Handler) http.Handler {
 		})
 	}
 }
+
+func AuthRequired() func(http.Handler) http.Handler {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			_, ok := r.Context().Value(utils.AuthKey).(sessions.Session)
+			if !ok {
+				http.Error(w, "Authentication required", http.StatusUnauthorized)
+				return
+			}
+
+			next.ServeHTTP(w, r)
+		})
+	}
+}
