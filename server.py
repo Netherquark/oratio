@@ -7,7 +7,6 @@ import torchaudio
 import torch
 
 from langchain_community.llms.llamafile import Llamafile
-from langchain_google_genai.chat_models import ChatGoogleGenerativeAI # type: ignore
 from langchain_core.messages import HumanMessage, SystemMessage
 from dotenv import load_dotenv
 
@@ -21,18 +20,15 @@ Make sure the first to speak is different from the previous speaker. Look at the
 If last tag in CONTEXT is <Person1>, then the first to speak now should be <Person2>.
 If last tag in CONTEXT is <Person2>, then the first to speak now should be <Person1>.
 This is a live conversation without any breaks.
-Hence, avoid statemeents such as "we'll discuss after a short break.  Stay tuned" or "Okay, so, picking up where we left off".
+Hence, avoid statements such as "we'll discuss after a short break. Stay tuned" or "Okay, so, picking up where we left off".
 
 ALWAYS START THE CONVERSATION GREETING THE AUDIENCE: Welcome to ResearchPod.
-Discuss the below INPUT in a podcast conversation format and then make concluding remarks in a podcast conversation format and END THE CONVERSATION GREETING THE AUDIENCE WITH PERSON1 ALSO SAYING A GOOD BYE MESSAGE
+Discuss the below INPUT in a podcast conversation format and then make concluding remarks in a podcast conversation format and END THE CONVERSATION GREETING THE AUDIENCE WITH PERSON1 ALSO SAYING A GOODBYE MESSAGE.
 """
 
 class LLM:
-    def __init__(self, use_llamafile: bool = True):
-        if use_llamafile:
-            self.llm = Llamafile()
-        else:
-            self.llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash",os.getenv('api_key'))
+    def __init__(self):
+        self.llm = Llamafile()
         self.llm.invoke(system_prompt)
     
     def generate_transcript(self, text: str):
@@ -121,7 +117,7 @@ def index():
 
 if __name__ == "__main__":
     print("Connecting to LLM")
-    generator = LLM(use_llamafile=True)
+    generator = LLM()
     app.config["generator"] = generator
     print("Starting server")
     app.run(host="0.0.0.0")
