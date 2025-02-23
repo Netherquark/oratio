@@ -10,6 +10,6 @@ export interface IPodcast {
   title: string,
   abstract: string,
   doi: string,
-  strategy: 'direct-llm' | 'summaries-to-llm',
+  status: 'html-to-chunks' | 'chunks-to-sum' | 'sum-to-trans' | 'trans-to-audio',
   created_by: number,
 }

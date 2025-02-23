@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createFileRoute, Link, redirect } from '@tanstack/react-router'
 import { useQueryClient } from '@tanstack/react-query';
 import { AuthGuard, login } from '@/query/auth';
 
-export const Route = createFileRoute('/login')({
+export const Route = createFileRoute('/auth/login')({
   component: LoginPage,
   beforeLoad: async () => {
     const isAuth = await AuthGuard();
@@ -49,6 +49,11 @@ function LoginPage() {
           }} />
           <div className='h-[25px]'></div>
           <Button type='submit' className='cursor-pointer'>Login</Button>
+          <div className='h-[10px]'></div>
+          <p className='text-sm text-stone-300'>
+            Don't have an account yet?
+            <Link to='/auth/signup' className='ml-[5px] underline'>Sign Up</Link>
+          </p>
         </form>
       </div>
       <div className="grow h-full bg-no-repeat bg-cover" style={{
