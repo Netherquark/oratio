@@ -5,10 +5,22 @@ from werkzeug.utils import secure_filename
 import pymupdf
 import torchaudio
 import torch
-
+import subprocess
+import contextlib
 from langchain_community.llms.llamafile import Llamafile
 from langchain_core.messages import HumanMessage, SystemMessage
 from dotenv import load_dotenv
+
+import os
+from time import time
+
+from IndicTrans2.inference.engine import Model
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+EN_IN_ckpt_dir = "static_data/ct_model_english_indic"
+IN_EN_ckpt_dir = "static_data/ct_model_indic_english"
+LANGUAGE_CODE_MAPPING = {
+    'hindi': 'hin_Deva'
+}
 
 system_prompt = """
 You are an AI designed to generate structured, engaging, and informative podcast transcripts from text extracted from Research Paper PDFs.
@@ -104,9 +116,6 @@ def generate_podcast():
         print("Generating...")
         transcript = app.config["generator"].generate_transcript(txt)
         print(transcript)
-        
-        # with open(os.path.join(app.config['UPLOAD_FOLDER'], "html", filename[:-4] + ".html"), "x") as f:
-        #     f.write(html_content)
         
         os.remove(os.path.join(app.config['UPLOAD_FOLDER'], "pdfs", filename))
         return "okay"
