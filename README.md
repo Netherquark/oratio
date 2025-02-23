@@ -26,9 +26,7 @@ Description : **Convert PDF files into podcasts**  This project converts text fr
 - Transliteration English-Hindi using Aksharamukha 
 - Using SSML to enhance quality of output audio
 ## 🔨: Installation : 
-1. Install the required dependencies - 
-pip install -r requirements.txt
-2. Clone the repository
+1. Clone the repository 
 # Contributing : 
 1. Fork the repository 
 2. Create a new branch (git checkout -b feature/NewFeature)
