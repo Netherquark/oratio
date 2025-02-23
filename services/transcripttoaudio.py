@@ -26,17 +26,39 @@ consumer = Consumer(consumer_config)
 producer = Producer(producer_config)
 
 # Function to process messages
-def process_message(message, output_topic):
-    """
-    Process the message and produce it to the next topic.
-    """
-    print(f"Processing message: {message.value().decode('utf-8')}")
-    # Add your processing logic here (e.g., summarization, chunking, etc.)
-    processed_message = message.value().decode("utf-8")  # Replace with actual processing logic
+def text_to_speech(text, output_audio_path, language='indic', speaker='v4_indic'):
+    """Convert text to speech using Silero TTS."""
+    try:
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        model, example_text = torch.hub.load(
+            repo_or_dir='snakers4/silero-models',
+            model='silero_tts',
+            language=language,
+            speaker=speaker
+        )
+        model.to(device)
 
-    # Produce the processed message to the next topic
-    producer.produce(output_topic, processed_message.encode("utf-8"))
-    producer.flush()
+        # Generate speech
+        audio = model.apply_tts(
+            text=text,
+            speaker=speaker,  # Using dynamic speaker selection
+            sample_rate=48000,
+            put_accent=True,
+            put_yo=True
+        )
+
+        # Ensure correct shape for saving
+        audio = torch.tensor(audio).unsqueeze(0)
+
+        # Save the audio file correctly
+        torchaudio.save(output_audio_path, audio, 48000)
+
+        print(f"Audio saved to {output_audio_path}")
+        return True
+    except Exception as e:
+        print(f"Error generating speech: {e}")
+        return False
+
 
 # Function to consume messages from a topic
 def consume_and_process(input_topic, output_topic):
