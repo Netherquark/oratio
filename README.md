@@ -1,6 +1,22 @@
 # Oratio
 Description : **Convert PDF files into podcasts**  This project converts text from PDF files into audio podcasts using: BERT, PyMuPDF 
-# Features : 
+## 📁 : Architecture : 
+
+
+├── PDF -> [![My Skills](https://skillicons.dev/icons?i=html)](https://skillicons.dev) <br>
+
+├── Chunking -> [![My Skills](https://skillicons.dev/icons?i=python)](https://skillicons.dev) <br>
+
+├── Summarization -> Fb/bart-large-cnn <br>
+
+├── Translation -> Krutrim/ Helsinki <br>
+
+└── Transcript -> gemma2b/llama2-3b/llamafile <br>
+
+└── Audio -> Silero TTS <br>
+
+
+## :zap: Features : 
 - PDF Text Extraction: Extract text from PDFs using PyMuPDF.
 - Text-to-Speech: Convert text to audio using Silero TTS.
 - Script Conversion: (Optional) Use Aksharamukha for transliteration.
@@ -9,7 +25,7 @@ Description : **Convert PDF files into podcasts**  This project converts text fr
 - Natural sounding AI-generated voice using Silero TTS which is lightweight and runs relatively fast on CPU
 - Transliteration English-Hindi using Aksharamukha 
 - Using SSML to enhance quality of output audio
-# Installation : 
+## 🔨: Installation : 
 1. Install the required dependencies - 
 pip install -r requirements.txt
 2. Clone the repository
