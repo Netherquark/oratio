@@ -1,7 +1,7 @@
 from confluent_kafka import Consumer, Producer, KafkaError
 
 # Kafka configuration
-KAFKA_BOOTSTRAP_SERVERS = "localhost:8082"
+KAFKA_BOOTSTRAP_SERVERS = "localhost:9092"
 
 # Topics
 TOPIC_PDF_TO_HTML = "pdf-to-html"
@@ -65,7 +65,7 @@ if __name__ == "__main__":
   
 
         # Stage 3: Chunks -> BART Summaries
-        consume_and_process(TOPIC_CHUNKS_TO_BART_SUMMARIES, TOPIC_BART_SUMMARIES_TO_TRANSCRIPT)
+        consume_and_process(TOPIC_CHUNKS_TO_BART_SUMMARIES, TOPIC_BART_SUMMARIES_TO_TRANSLATE)
 
      
 
