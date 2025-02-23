@@ -9,9 +9,9 @@ import (
 )
 
 func ConnectToDatabase() *sqlx.DB {
-	dsn := os.Getenv("RESEARCHPOD_POSTGRES_DSN")
+	dsn := os.Getenv("ORATIO_POSTGRES_DSN")
 	if dsn == "" {
-		log.Fatal().Msg("RESEARCHPOD_POSTGRES_DSN was not provided")
+		log.Fatal().Msg("ORATIO_POSTGRES_DSN was not provided")
 	}
 
 	db, err := sqlx.Connect("postgres", dsn)

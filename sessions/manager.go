@@ -15,16 +15,16 @@ type SessionManager struct {
 }
 
 func NewSessionManager() *SessionManager {
-	addr := os.Getenv("RESEARCHPOD_REDIS_ADDR")
-	pass := os.Getenv("RESEARCHPOD_REDIS_PASS")
-	db, err := strconv.Atoi(os.Getenv("RESEARCHPOD_REDIS_DB"))
+	addr := os.Getenv("ORATIO_REDIS_ADDR")
+	pass := os.Getenv("ORATIO_REDIS_PASS")
+	db, err := strconv.Atoi(os.Getenv("ORATIO_REDIS_DB"))
 
 	if err != nil {
-		log.Fatal().Msg("Please check value of RESEARCHPOD_REDIS_DB")
+		log.Fatal().Msg("Please check value of ORATIO_REDIS_DB")
 	}
 
 	if addr == "" {
-		log.Fatal().Msg("RESEARCHPOD_REDIS_ADDR was not provided")
+		log.Fatal().Msg("ORATIO_REDIS_ADDR was not provided")
 	}
 
 	client := redis.NewClient(&redis.Options{

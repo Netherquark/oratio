@@ -9,6 +9,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/netherquark/oratio/auth"
 	"github.com/netherquark/oratio/database"
+	"github.com/netherquark/oratio/pipeline"
 	"github.com/netherquark/oratio/routes"
 	"github.com/netherquark/oratio/sessions"
 	"github.com/rs/zerolog"
@@ -22,7 +23,7 @@ const (
 func main() {
 	godotenv.Load()
 
-	port := os.Getenv("RESEARCHPOD_PORT")
+	port := os.Getenv("ORATIO_PORT")
 	if port == "" {
 		port = defaultPort
 	}
@@ -32,6 +33,8 @@ func main() {
 
 	db := database.ConnectToDatabase()
 	sm := sessions.NewSessionManager()
+	pipeProd := pipeline.GetPipelineProducer()
+	pipeCons := pipeline.GetPipelineConsumer()
 
 	r := chi.NewRouter()
 
@@ -46,6 +49,7 @@ func main() {
 	r.Use(database.DatabaseMiddleware(db))
 	r.Use(sessions.SessionManagerMiddleware(sm))
 	r.Use(auth.AuthMiddleware())
+	r.Use(pipeline.PipelineMiddleware(pipeProd, pipeCons))
 
 	routes.MountRoutes(r)
 

@@ -43,5 +43,35 @@ func getPodcasts(w http.ResponseWriter, r *http.Request) {
 }
 
 func newPodcast(w http.ResponseWriter, r *http.Request) {
-	//
+	s := r.Context().Value(utils.AuthKey).(sessions.Session)
+	db := r.Context().Value(utils.DatabaseKey).(*sqlx.DB)
+
+	var body struct {
+		Title       string `json:"title"`
+		Abstract    string `json:"abstract"`
+		DOI         string `json:"doi"`
+		ContentHTML string `json:"content_html"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		http.Error(w, "Invalid request body provided", http.StatusBadRequest)
+		return
+	}
+
+	query := `
+		INSERT INTO podcasts (title, abstract, doi, created_by, status) VALUES ($1, $2, $3, $4, 'html-to-chunks') RETURNING id
+	`
+	row := db.QueryRow(query, body.Title, body.Abstract, body.DOI, s.UserID)
+	if err := row.Err(); err != nil {
+		http.Error(w, "Couldn't create podcast", http.StatusInternalServerError)
+		return
+	}
+
+	var pID uint64
+	if err := row.Scan(&pID); err != nil {
+		http.Error(w, "Couldn't create podcast", http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("Done"))
 }

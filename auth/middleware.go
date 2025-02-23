@@ -14,8 +14,8 @@ func SecureCookieMiddleware() func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			c := securecookie.New(
-				[]byte(os.Getenv("RESEARCHPOD_AUTH_HASH_KEY")),
-				[]byte(os.Getenv("RESEARCHPOD_AUTH_BLOCK_KEY")),
+				[]byte(os.Getenv("ORATIO_AUTH_HASH_KEY")),
+				[]byte(os.Getenv("ORATIO_AUTH_BLOCK_KEY")),
 			)
 			ctx := context.WithValue(r.Context(), utils.SecureCookieKey, c)
 			r = r.WithContext(ctx)
