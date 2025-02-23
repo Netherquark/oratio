@@ -1,7 +1,7 @@
 from confluent_kafka import Consumer, Producer, KafkaError
 
 # Kafka configuration
-KAFKA_BOOTSTRAP_SERVERS = "localhost:9092"
+KAFKA_BOOTSTRAP_SERVERS = "localhost:8082"
 
 # Topics
 TOPIC_PDF_TO_HTML = "pdf-to-html"
