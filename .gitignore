@@ -2,3 +2,5 @@
 .env
 .env.example
 __pycache__
+*.llamafile
+*.bin
