@@ -1,4 +1,7 @@
 # Oratio
+
+NOTE: Repo is still a WIP. Planned: [exo](https://github.com/exo-explore/exo) support, CPU-only, other Indic languages, etc.
+
 Description : **Convert PDF files into podcasts**  This project converts text from PDF files into audio podcasts using: BERT, PyMuPDF 
 ## 📁 Architecture : 
 
